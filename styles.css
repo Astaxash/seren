@@ -170,9 +170,10 @@ h2 {
 .skill-bar-container { width: 100%; height: 10px; background-color: var(--border-color); border-radius: 10px; overflow: hidden; }
 .skill-bar-fill { height: 100%; width: 0; background-color: hsl(calc(var(--skill-level) * 1.2), 80%, 50%); border-radius: 10px; transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1); }
 
-/* --- CORRECTED PROJECTS SECTION STYLES --- */
+/* --- PROJECTS SECTION STYLES (CSS GRID VERSION) --- */
 .projects-grid {
     display: grid;
+    /* This is the line that creates the 3-column layout on PC */
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
 }
@@ -229,6 +230,7 @@ footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--bor
 /* --- Media Queries for Responsiveness --- */
 @media (max-width: 1024px) {
     .projects-grid {
+        /* On tablets, it becomes a 2-column grid */
         grid-template-columns: repeat(2, 1fr);
     }
 }
@@ -247,6 +249,11 @@ footer { text-align: center; padding: 40px 20px; border-top: 1px solid var(--bor
 
     #home { flex-direction: column; padding-top: 40px; }
     .skills-container { grid-template-columns: 1fr; gap: 30px; }
-    .projects-grid { grid-template-columns: 1fr; }
+    
+    .projects-grid {
+        /* On mobile, it becomes a 1-column grid */
+        grid-template-columns: 1fr;
+    }
+
     .events-grid { grid-template-columns: 1fr; }
 }
