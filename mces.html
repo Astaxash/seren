@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Name | Your Name</title>
+    
+    <!-- Google Fonts & Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        /* --- START OF CSS --- */
+
+        /* --- Main Styles (from style.css) --- */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --primary-color: #007bff;
+            --card-bg-color: #f9f9f9;
+            --border-color: #dddddd;
+            --header-bg-color: rgba(255, 255, 255, 0.8);
+        }
+
+        body.dark-mode {
+            --bg-color: #121212;
+            --text-color: #eeeeee;
+            --primary-color: #1e90ff;
+            --card-bg-color: #1e1e1e;
+            --border-color: #444444;
+            --header-bg-color: rgba(18, 18, 18, 0.8);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding-top: 70px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--header-bg-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 99;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            height: 70px;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .theme-switcher {
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-switcher #theme-toggle {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .theme-switcher .slider {
+            position: relative;
+            display: block;
+            width: 50px;
+            height: 26px;
+            background-color: #ccc;
+            border-radius: 26px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .theme-switcher .slider::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 4px;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-switcher input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+
+        .theme-switcher input:checked + .slider::before {
+            transform: translateX(23px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* --- Project Detail Specific Styles --- */
+        .project-main {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 2rem;
+        }
+
+        .project-main section {
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .project-main h1 {
+            font-size: 3rem;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .project-main h2 {
+            font-size: 2.5rem;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        pre {
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--primary-color);
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .gallery-img {
+            width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.05);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 80%;
+            max-height: 80vh;
+            border-radius: 8px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: #bbb;
+        }
+
+        @media (max-width: 768px) {
+            .image-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* --- END OF CSS --- */
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="index.html#projects" class="nav-brand">&larr; Back to Portfolio</a>
+            <div class="theme-switcher">
+                <input type="checkbox" id="theme-toggle">
+                <label for="theme-toggle" class="slider"></label>
+            </div>
+        </nav>
+    </header>
+
+    <main class="project-main">
+        <section class="project-intro">
+            <h1>Drowsiness detection system using 8051</h1>
+            <p>This project is done with 8051 micro controller simulated via software called as keil micro vision version 4</p>
+        </section>
+
+        <section class="project-code">
+            <h2>Code Snippets</h2>
+            <p>Here's the code for the project.</p>
+            <pre><code>
+
+#include<REGX51.H>
+
+sbit g = P * 3 ^ k * T_{i}
+
+sbit en
+
+sbit EyeBlinkSensor = P1*0;
+
+sbit Buzzer P141;
+
+sbit M11 P12:
+
+sbit M12-P1*3; sbit M21 P14
+
+sbit M22 P145; void delay(unsigned char a)(
+
+for(i=0;i<n;i++) for(j=0;j<1000;j++), } void cmd(unsigned char a)( = 0;
+
+P2=a en-1: delay(10); en = D
+
+void Data(unsigned char a)
+
+P2=a en = 1, delay(10); epsilon*n = 0
+
+void string(unsigned char *p)
+
+{ while(*p)
+
+Data(*p++):
+
+void main()
+
+M11-0: 0; MZ * 1 = O_{p} ^ 2 M * 12 = O_{s} M * 22 = 0 .
+
+cmd(0x38); //LCD 2 lines, 5x7 matrix cmd(0x0E); // Display ON, cursor ON cmd(0x80); // Cursor at line 1, position 0 string("DROWSY DRIVER"); omd(0xC0); // Cursor at line 2, position 0 string("DETECTING SYSTEM");
+
+delay(500);
+
+cmd(0x01); // Clear LCD
+
+while(1)
+
+if (EyeBlinkSensor ==0) // If sensor detects sleeping
+
+Buzzer = 1;
+
+W * 11 = 0, M * 12 = 0, mn
+
+cmd(0x80); string("DRIVER IS cmd(0xC0); string(SLEEPING);
+
+} else
+
+Buzzer = 0; M * 11 = 1; M * 12 = 0 ; M211, M220;
+
+cmd(0x80);
+
+string("DRIVER IS NOT "); cmd(0x00);
+
+string("SLEEPING);
+}
+}
+}
+            </code></pre>
+        </section>
+
+        <section class="project-gallery">
+            <h2>Gallery</h2>
+            <div class="image-grid">
+                <img src="mces1.jpg" alt="Project screenshot 1" class="gallery-img">
+                <img src="mces2.jpg" alt="Project screenshot 2" class="gallery-img">
+
+            </div>
+        </section>
+    </main>
+
+    <div id="imageModal" class="modal">
+        <span class="close-btn">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <footer>
+        <p>Created & Maintained by Akhil &copy; 2025</p>
+    </footer>
+
+    <script>
+        // --- START OF JAVASCRIPT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Theme Switcher Logic ---
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+
+            themeToggle.addEventListener('change', () => {
+                body.classList.toggle('dark-mode');
+            });
+
+            // --- Image Modal (Pop-up) Logic ---
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const closeBtn = document.querySelector('.close-btn');
+
+            document.querySelectorAll('.gallery-img').forEach(img => {
+                img.onclick = function() {
+                    modal.classList.add('active');
+                    modalImg.src = this.src;
+                }
+            });
+
+            function closeModal() {
+                modal.classList.remove('active');
+            }
+
+            if (closeBtn) {
+                closeBtn.onclick = closeModal;
+            }
+
+            if (modal) {
+                modal.onclick = function(event) {
+                    if (event.target === modal) {
+                        closeModal();
+                    }
+                }
+            }
+        });
+        // --- END OF JAVASCRIPT ---
+    </script>
+</body>
+</html>
